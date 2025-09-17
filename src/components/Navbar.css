@@ -4,3 +4,16 @@
   margin-left: 10px;
   margin-right: 10px;
 }
+
+.no-hover:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+.navbar-item {
+  height: 30px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 5px;
+}
