@@ -95,3 +95,18 @@ export const autoLogin = async () => {
     throw new Error(error.message);
   }
 };
+
+export const documentList = async () => {
+  const response = await fetch("http://localhost:3000/api/documents", {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to get document list");
+  }
+
+  const data = await response.json();
+
+  return data;
+};

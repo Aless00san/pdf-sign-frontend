@@ -3,3 +3,9 @@ export default interface User {
   email: string;
   password: string;
 }
+
+export interface Document {
+  id: string;
+  name: string;
+  userId: string;
+}

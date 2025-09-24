@@ -26,6 +26,10 @@ body {
   color: #cbe7ff;
 }
 
+.has-background-blue-light {
+  background-color: rgb(245, 251, 254);
+}
+
 .medium-text {
   font-size: 20px;
 }
@@ -33,4 +37,8 @@ body {
 .border-box {
   border: 1px solid #4a90e2;
   box-shadow: 0px 0px 10px white;
+}
+
+.w-half {
+  width: 50%;
 }

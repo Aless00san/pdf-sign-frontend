@@ -3,16 +3,19 @@ import "./Navbar.css";
 
 function Navbar({
   setIsAuthModalOpen,
-  modalType,
   setModalType,
   user,
   handleLogout,
+  setContent,
 }: {
   setIsAuthModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   user: User | null;
   handleLogout: () => void;
+  setContent: React.Dispatch<
+    React.SetStateAction<"Upload" | "Documents" | "About">
+  >;
 }) {
   return (
     <>
@@ -26,11 +29,32 @@ function Navbar({
             </a>
           </div>
           <div className="navbar-start">
-            <a className="navbar-item">Home</a>
+            <a
+              className="navbar-item"
+              onClick={() => {
+                setContent("Upload");
+              }}
+            >
+              Home
+            </a>
 
-            <a className="navbar-item">Documents</a>
+            <a
+              className="navbar-item"
+              onClick={() => {
+                setContent("Documents");
+              }}
+            >
+              Documents
+            </a>
 
-            <a className="navbar-item">About</a>
+            <a
+              className="navbar-item"
+              onClick={() => {
+                setContent("About");
+              }}
+            >
+              About
+            </a>
           </div>
 
           {user === null && (
@@ -59,16 +83,18 @@ function Navbar({
               </div>
             </div>
           )}
-          {user != null && 
+          {user != null && (
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons mr-4">
                   <p className="mt-4"> Welcome {user.email}</p>
-                  <button className="button" onClick={handleLogout}>Log out</button>
+                  <button className="button" onClick={handleLogout}>
+                    Log out
+                  </button>
                 </div>
               </div>
             </div>
-          }
+          )}
         </div>
       </nav>
     </>

@@ -5,6 +5,8 @@ import type User from "../types/types";
 import AuthModal from "./AuthModal";
 import { login, register, logout, autoLogin } from "../utils/api";
 import Navbar from "./Navbar";
+import DocumentList from "./DocumentList";
+import About from "./About";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -12,6 +14,10 @@ function App() {
   const [modalType, setModalType] = useState<string>("Login");
   const [isLogged, setIsLogged] = useState(false);
   const [error, setError] = useState("");
+
+  const [content, setContent] = useState<"Upload" | "Documents" | "About">(
+    "Upload"
+  );
 
   const handleLogin = async (email: string, password: string) => {
     await login(email, password).then((data) => {
@@ -32,6 +38,7 @@ function App() {
   const handleLogout = async () => {
     await logout().then(() => {
       setUser(null);
+      setIsLogged(false);
     });
   };
 
@@ -51,6 +58,14 @@ function App() {
     fetchUser();
   }, []);
 
+  const docs = [
+    { id: "1", name: "Documento 1", userId: "1" },
+    { id: "2", name: "Documento 2", userId: "2" },
+    { id: "3", name: "Documento 3", userId: "3" },
+    { id: "4", name: "Documento 4", userId: "4" },
+    { id: "5", name: "Documento 5", userId: "5" },
+  ];
+
   return (
     <>
       <div className="content container">
@@ -60,20 +75,37 @@ function App() {
           setModalType={setModalType}
           user={user}
           handleLogout={handleLogout}
+          setContent={setContent}
         />
-        <div className="center">
-          <AuthModal
-            {...{
-              title: modalType,
-              isOpen: isAuthModalOpen,
-              setIsOpen: setIsAuthModalOpen,
-              submit: {
-                login: handleLogin,
-                register: handleRegister,
-              },
-            }}
-          />
-          <UploadBox />
+        <AuthModal
+          {...{
+            title: modalType,
+            isOpen: isAuthModalOpen,
+            setIsOpen: setIsAuthModalOpen,
+            submit: {
+              login: handleLogin,
+              register: handleRegister,
+            },
+          }}
+        />
+        <div className="main-content">
+          {content === "Upload" && (
+            <div className="center">
+              <UploadBox />
+            </div>
+          )}
+
+          {content === "Documents" && (
+            <div className="content container center has-text-centered">
+              <DocumentList isLogged={isLogged} />
+            </div>
+          )}
+
+          {content === "About" && (
+            <div className="center">
+              <About />
+            </div>
+          )}
         </div>
       </div>
     </>
