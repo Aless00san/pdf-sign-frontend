@@ -2,9 +2,18 @@ import DocumentEntry from "./DocumentEntry";
 import type { Document } from "../types/types";
 import { documentList } from "../utils/api";
 import { useEffect, useState } from "react";
+import QrModal from "./QrModal";
 
-function DocumentList({ isLogged }: { isLogged: boolean }) {
+function DocumentList({
+  isLogged,
+  attemptSign,
+}: {
+  isLogged: boolean;
+  attemptSign: (documentId: string) => Promise<string>;
+}) {
   const [documentsList, setDocumentsList] = useState<Document[]>([]);
+  const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false);
+  const [qrSource, setQrSource] = useState<string>("");
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -26,8 +35,17 @@ function DocumentList({ isLogged }: { isLogged: boolean }) {
     <>
       <div className="is-flex is-flex-direction-column is-align-items-center container">
         {documentsList.map((document) => (
-          <DocumentEntry key={document.id} document={document} />
+          <DocumentEntry
+            key={document.id}
+            document={document}
+            attemptSign={attemptSign}
+            setIsQrModalOpen={setIsQrModalOpen}
+            setQrSource={setQrSource}
+          />
         ))}
+        {isQrModalOpen && (
+          <QrModal isOpen={isQrModalOpen} setIsOpen={setIsQrModalOpen} qrSource={qrSource}/>
+        )}
       </div>
     </>
   );

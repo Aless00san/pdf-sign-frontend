@@ -3,7 +3,7 @@ import "./App.css";
 import UploadBox from "./UploadBox";
 import type User from "../types/types";
 import AuthModal from "./AuthModal";
-import { login, register, logout, autoLogin } from "../utils/api";
+import { login, register, logout, autoLogin, getQRCode } from "../utils/api";
 import Navbar from "./Navbar";
 import DocumentList from "./DocumentList";
 import About from "./About";
@@ -25,6 +25,19 @@ function App() {
     });
     setIsLogged(true);
   };
+
+  const attemptSign = async (documentId: string): Promise<string> => {
+  try {
+    const data = await getQRCode(documentId);
+    let qr = data.qr;
+
+    return qr;
+  } catch (error: any) {
+    setError(error.message);
+    return "";
+  }
+};
+
 
   const handleRegister = async (email: string, password: string) => {
     try {
@@ -97,7 +110,7 @@ function App() {
 
           {content === "Documents" && (
             <div className="content container center has-text-centered">
-              <DocumentList isLogged={isLogged} />
+              <DocumentList isLogged={isLogged} attemptSign={attemptSign} />
             </div>
           )}
 

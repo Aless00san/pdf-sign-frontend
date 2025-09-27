@@ -110,3 +110,21 @@ export const documentList = async () => {
 
   return data;
 };
+
+export const getQRCode = async (documentId: string) => {
+  const response = await fetch(
+    `http://localhost:3000/api/documents/${documentId}/qr`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to get QR code");
+  }
+
+  const data = await response.json();
+
+  return data;
+};
