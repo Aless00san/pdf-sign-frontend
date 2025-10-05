@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-
 interface AuthModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;

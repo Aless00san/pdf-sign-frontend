@@ -1,6 +1,9 @@
+packages:
+  - packages/*
+
+ignoredBuiltDependencies:
+  - canvas
+
 onlyBuiltDependencies:
   - '@swc/core'
   - esbuild
-
-packages:
-  - 'packages/*'

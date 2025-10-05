@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import "./App.css";
+import { useEffect, useState, type SetStateAction } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import UploadBox from "./UploadBox";
 import type User from "../types/types";
 import AuthModal from "./AuthModal";
@@ -7,6 +7,8 @@ import { login, register, logout, autoLogin, getQRCode } from "../utils/api";
 import Navbar from "./Navbar";
 import DocumentList from "./DocumentList";
 import About from "./About";
+import SignaturePad from "./SignaturePad";
+import PdfFile from "./PdfFile";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -14,10 +16,6 @@ function App() {
   const [modalType, setModalType] = useState<string>("Login");
   const [isLogged, setIsLogged] = useState(false);
   const [error, setError] = useState("");
-
-  const [content, setContent] = useState<"Upload" | "Documents" | "About">(
-    "Upload"
-  );
 
   const handleLogin = async (email: string, password: string) => {
     await login(email, password).then((data) => {
@@ -27,17 +25,16 @@ function App() {
   };
 
   const attemptSign = async (documentId: string): Promise<string> => {
-  try {
-    const data = await getQRCode(documentId);
-    let qr = data.qr;
+    try {
+      const data = await getQRCode(documentId);
+      let qr = data.qr;
 
-    return qr;
-  } catch (error: any) {
-    setError(error.message);
-    return "";
-  }
-};
-
+      return qr;
+    } catch (error: any) {
+      setError(error.message);
+      return "";
+    }
+  };
 
   const handleRegister = async (email: string, password: string) => {
     try {
@@ -71,57 +68,43 @@ function App() {
     fetchUser();
   }, []);
 
-  const docs = [
-    { id: "1", name: "Documento 1", userId: "1" },
-    { id: "2", name: "Documento 2", userId: "2" },
-    { id: "3", name: "Documento 3", userId: "3" },
-    { id: "4", name: "Documento 4", userId: "4" },
-    { id: "5", name: "Documento 5", userId: "5" },
-  ];
-
   return (
-    <>
+    <BrowserRouter>
       <div className="content container">
+        <AuthModal
+          title={modalType}
+          isOpen={isAuthModalOpen}
+          setIsOpen={setIsAuthModalOpen}
+          submit={{
+            login: handleLogin,
+            register: handleRegister,
+          }}
+        />
         <Navbar
           setIsAuthModalOpen={setIsAuthModalOpen}
           modalType={modalType}
           setModalType={setModalType}
           user={user}
           handleLogout={handleLogout}
-          setContent={setContent}
-        />
-        <AuthModal
-          {...{
-            title: modalType,
-            isOpen: isAuthModalOpen,
-            setIsOpen: setIsAuthModalOpen,
-            submit: {
-              login: handleLogin,
-              register: handleRegister,
-            },
-          }}
         />
         <div className="main-content">
-          {content === "Upload" && (
-            <div className="center">
-              <UploadBox />
-            </div>
-          )}
+          <Routes>
+            <Route path="/" element={<UploadBox />} />
+            <Route
+              path="/documents"
+              element={
+                <DocumentList isLogged={isLogged} attemptSign={attemptSign} />
+              }
+            />
+            <Route path="/about" element={<About />} />
+            <Route path="/sign/:documentId" element={<SignaturePad />} />
+             <Route path="/pdf/:documentId" element={<PdfFile />} />
 
-          {content === "Documents" && (
-            <div className="content container center has-text-centered">
-              <DocumentList isLogged={isLogged} attemptSign={attemptSign} />
-            </div>
-          )}
-
-          {content === "About" && (
-            <div className="center">
-              <About />
-            </div>
-          )}
+            <Route path="*" element={<h2>Page Not Found</h2>} />
+          </Routes>
         </div>
       </div>
-    </>
+    </BrowserRouter>
   );
 }
 

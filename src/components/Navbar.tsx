@@ -1,21 +1,18 @@
 import type User from "../types/types";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 function Navbar({
   setIsAuthModalOpen,
   setModalType,
   user,
   handleLogout,
-  setContent,
 }: {
   setIsAuthModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   modalType: string;
   setModalType: React.Dispatch<React.SetStateAction<string>>;
   user: User | null;
   handleLogout: () => void;
-  setContent: React.Dispatch<
-    React.SetStateAction<"Upload" | "Documents" | "About">
-  >;
 }) {
   return (
     <>
@@ -24,37 +21,27 @@ function Navbar({
 
         <div id="navbarBasicExample" className="navbar-menu">
           <div className="navbar-brand">
-            <a className="navbar">
+            <Link to="/" className="navbar-item">
               <img src="pdf-sign-com.svg" alt="Logo" width="32" height="28" />
-            </a>
+            </Link>
           </div>
           <div className="navbar-start">
-            <a
-              className="navbar-item"
-              onClick={() => {
-                setContent("Upload");
-              }}
-            >
+            <Link to="/" className="navbar-item">
               Home
-            </a>
+            </Link>
 
-            <a
-              className="navbar-item"
-              onClick={() => {
-                setContent("Documents");
-              }}
-            >
+            <Link to="/documents" className="navbar-item">
               Documents
-            </a>
+            </Link>
 
-            <a
-              className="navbar-item"
-              onClick={() => {
-                setContent("About");
-              }}
-            >
+            <Link to="/about" className="navbar-item">
               About
-            </a>
+            </Link>
+
+           {/* degug sign button delete later */}
+            <Link to="/pdf/" className="navbar-item">
+              Extra
+            </Link>
           </div>
 
           {user === null && (
