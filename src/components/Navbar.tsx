@@ -1,6 +1,6 @@
-import type User from "../types/types";
-import "./Navbar.css";
-import { Link } from "react-router-dom";
+import type User from '../types/types';
+import './Navbar.css';
+import { Link } from 'react-router-dom';
 
 function Navbar({
   setIsAuthModalOpen,
@@ -16,51 +16,70 @@ function Navbar({
 }) {
   return (
     <>
-      <nav className="navbar" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand ml-4"></div>
+      <nav
+        className='navbar'
+        role='navigation'
+        aria-label='main navigation'
+      >
+        <div className='navbar-brand ml-4'></div>
 
-        <div id="navbarBasicExample" className="navbar-menu">
-          <div className="navbar-brand">
-            <Link to="/" className="navbar-item">
-              <img src="pdf-sign-com.svg" alt="Logo" width="32" height="28" />
+        <div
+          id='navbarBasicExample'
+          className='navbar-menu'
+        >
+          <div className='navbar-brand'>
+            <Link
+              to='/'
+              className='navbar-item'
+            >
+              <img
+                src='pdf-sign-com.svg'
+                alt='Logo'
+                width='32'
+                height='28'
+              />
             </Link>
           </div>
-          <div className="navbar-start">
-            <Link to="/" className="navbar-item">
+          <div className='navbar-start'>
+            <Link
+              to='/'
+              className='navbar-item'
+            >
               Home
             </Link>
 
-            <Link to="/documents" className="navbar-item">
+            <Link
+              to='/documents'
+              className='navbar-item'
+            >
               Documents
             </Link>
 
-            <Link to="/about" className="navbar-item">
+            <Link
+              to='/about'
+              className='navbar-item'
+            >
               About
-            </Link>
-
-           {/* degug sign button delete later */}
-            <Link to="/pdf/" className="navbar-item">
-              Extra
             </Link>
           </div>
 
           {user === null && (
-            <div className="navbar-end">
-              <div className="navbar-item">
-                <div className="buttons mr-4">
+            <div className='navbar-end'>
+              <div className='navbar-item'>
+                <div className='buttons mr-4'>
                   <a
-                    className="button is-primary"
+                    className='button is-primary'
                     onClick={() => {
-                      setModalType("Register");
+                      setModalType('Register');
                       setIsAuthModalOpen(true);
                     }}
                   >
                     <strong>Sign up</strong>
                   </a>
                   <a
-                    className="button is-light"
+                    className='button is-light'
                     onClick={() => {
-                      setModalType("Login");
+                      setModalType('Login');
                       setIsAuthModalOpen(true);
                     }}
                   >
@@ -71,11 +90,14 @@ function Navbar({
             </div>
           )}
           {user != null && (
-            <div className="navbar-end">
-              <div className="navbar-item">
-                <div className="buttons mr-4">
-                  <p className="mt-4"> Welcome {user.email}</p>
-                  <button className="button" onClick={handleLogout}>
+            <div className='navbar-end'>
+              <div className='navbar-item'>
+                <div className='buttons mr-4'>
+                  <p className='mt-4'> Welcome {user.email}</p>
+                  <button
+                    className='button'
+                    onClick={handleLogout}
+                  >
                     Log out
                   </button>
                 </div>

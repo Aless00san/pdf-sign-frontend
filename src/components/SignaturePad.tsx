@@ -1,10 +1,13 @@
-import { useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import SignatureCanvas from "react-signature-canvas";
+import { useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import SignatureCanvas from 'react-signature-canvas';
+import './App.css';
+import CloseModal from './CloseModal';
 
 function SignaturePad() {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const sigCanvasRef = useRef<SignatureCanvas | null>(null);
-  const navigate = useNavigate();
   const { documentId } = useParams();
 
   const clear = () => {
@@ -12,47 +15,68 @@ function SignaturePad() {
   };
 
   const save = () => {
-    if (sigCanvasRef.current?.isEmpty()) {
-      alert("Please provide a signature first.");
+    const sig = sigCanvasRef.current;
+    if (!sig || sig.isEmpty()) {
+      alert('Please provide a signature first.');
       return;
     }
 
-    const dataURL = sigCanvasRef.current?.toDataURL("image/png");
-    console.log("Signature Image (base64):", dataURL);
-    navigate(`/pdf/${documentId}`);
+    const dataURL = sig.toDataURL('image/png');
+    handleNext(dataURL);
+    setModalOpen(true);
+  };
 
+  const handleNext = async (signatureDataUrl: string) => {
+    await fetch(`http://localhost:3000/api/documents/${documentId}/sign`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ signature: signatureDataUrl }),
+      credentials: 'include',
+    });
+
+    if (window.opener) {
+      window.opener.postMessage(
+        { action: 'SIGNED', documentId, signature: signatureDataUrl },
+        '*'
+      );
+      window.close();
+    }
   };
 
   return (
-    <div className="signature-wrapper">
+    <div className='signature-wrapper'>
       <h2>Draw your signature</h2>
       <SignatureCanvas
         ref={sigCanvasRef}
         canvasProps={{
           width: 400,
           height: 200,
-          className: "signature-canvas",
+          className: 'signature-canvas',
         }}
-        backgroundColor="#f9f9f9"
-        penColor="black"
+        backgroundColor='transparent'
+        penColor='black'
       />
-      <div className="buttons">
-        <button onClick={clear} className="button is-warning">
+      <div className='buttons'>
+        <button
+          onClick={clear}
+          className='button is-warning'
+        >
           Clear
         </button>
-        <button onClick={save} className="button is-primary ml-2">
+        <button
+          onClick={save}
+          className='button is-primary ml-2'
+        >
           Save
         </button>
       </div>
+
+      <CloseModal
+        isOpen={modalOpen}
+        setIsOpen={setModalOpen}
+      />
     </div>
   );
 }
 
 export default SignaturePad;
-function useState<T>(arg0: string): [any, any] {
-  throw new Error("Function not implemented.");
-}
-
-function useEffect(arg0: () => void, arg1: never[]) {
-  throw new Error("Function not implemented.");
-}

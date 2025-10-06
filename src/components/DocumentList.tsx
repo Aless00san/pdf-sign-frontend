@@ -1,19 +1,21 @@
-import DocumentEntry from "./DocumentEntry";
-import type { Document } from "../types/types";
-import { documentList } from "../utils/api";
-import { useEffect, useState } from "react";
-import QrModal from "./QrModal";
+import DocumentEntry from './DocumentEntry';
+import type { Document } from '../types/types';
+import { documentList } from '../utils/api';
+import { use, useEffect, useState } from 'react';
+import QrModal from './QrModal';
 
 function DocumentList({
   isLogged,
   attemptSign,
+  selectedDocument,
 }: {
   isLogged: boolean;
   attemptSign: (documentId: string) => Promise<string>;
+  selectedDocument: string | null;
 }) {
   const [documentsList, setDocumentsList] = useState<Document[]>([]);
   const [isQrModalOpen, setIsQrModalOpen] = useState<boolean>(false);
-  const [qrSource, setQrSource] = useState<string>("");
+  const [qrSource, setQrSource] = useState<string>('');
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -32,9 +34,13 @@ function DocumentList({
   }
 
   return (
-    <>
-      <div className="is-flex is-flex-direction-column is-align-items-center container">
-        {documentsList.map((document) => (
+    <div className='is-flex is-flex-direction-column is-align-items-center container'>
+      {documentsList.length === 0 ? (
+        <p className='has-text-grey'>
+          No documents found. <br /> Please upload a document to get started.
+        </p>
+      ) : (
+        documentsList.map(document => (
           <DocumentEntry
             key={document.id}
             document={document}
@@ -42,12 +48,18 @@ function DocumentList({
             setIsQrModalOpen={setIsQrModalOpen}
             setQrSource={setQrSource}
           />
-        ))}
-        {isQrModalOpen && (
-          <QrModal isOpen={isQrModalOpen} setIsOpen={setIsQrModalOpen} qrSource={qrSource}/>
-        )}
-      </div>
-    </>
+        ))
+      )}
+
+      {isQrModalOpen && (
+        <QrModal
+          isOpen={isQrModalOpen}
+          setIsOpen={setIsQrModalOpen}
+          qrSource={qrSource}
+          documentId={selectedDocument}
+        />
+      )}
+    </div>
   );
 }
 

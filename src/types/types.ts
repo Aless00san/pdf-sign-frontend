@@ -8,4 +8,5 @@ export interface Document {
   id: string;
   name: string;
   userId: string;
+  status: string;
 }
