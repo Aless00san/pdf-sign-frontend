@@ -56,10 +56,10 @@ function Navbar({
             </Link>
 
             <Link
-              to='/about'
+              to='/policy'
               className='navbar-item'
             >
-              About
+              Policy
             </Link>
           </div>
 

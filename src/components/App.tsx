@@ -6,7 +6,7 @@ import AuthModal from './AuthModal';
 import { login, register, logout, autoLogin, getQRCode } from '../utils/api';
 import Navbar from './Navbar';
 import DocumentList from './DocumentList';
-import About from './About';
+import Policy from './Policy';
 import SignaturePad from './SignaturePad';
 import PdfFile from './PdfFile';
 
@@ -106,8 +106,8 @@ function App() {
               }
             />
             <Route
-              path='/about'
-              element={<About />}
+              path='/policy'
+              element={<Policy />}
             />
             <Route
               path='/sign/:documentId'

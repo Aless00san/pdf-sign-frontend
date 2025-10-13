@@ -168,6 +168,7 @@ export default function PdfFile() {
                       renderAnnotationLayer={false}
                       renderTextLayer={false}
                     />
+                    <br />
                     {coords &&
                       coords.pageNumber === pageNumber &&
                       signature && (
