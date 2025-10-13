@@ -16,6 +16,14 @@ export const uploadDocument = async (file: File) => {
     credentials: "include",
   });
 
+  if (response.status === 406) {
+    throw new Error("Maximum number of documents reached");
+  }
+
+  if (response.status === 413) {
+    throw new Error("The document exceeds the maximum size of 50MB");
+  }
+
   if (!response.ok) {
     throw new Error("Failed to upload document");
   }

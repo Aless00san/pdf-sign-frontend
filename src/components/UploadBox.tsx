@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useDropzone, type FileWithPath } from 'react-dropzone';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import './App.css';
 import { uploadDocument } from '../utils/api';
-import type User from '../types/types';
 
 interface SinglePDFUploaderProps {
   isLogged: boolean;

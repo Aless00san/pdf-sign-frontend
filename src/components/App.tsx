@@ -1,5 +1,5 @@
-import { useEffect, useState, type SetStateAction } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect, useState} from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import UploadBox from './UploadBox';
 import type User from '../types/types';
 import AuthModal from './AuthModal';
@@ -9,6 +9,7 @@ import DocumentList from './DocumentList';
 import Policy from './Policy';
 import SignaturePad from './SignaturePad';
 import PdfFile from './PdfFile';
+import Footer from './Footer';
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -16,7 +17,9 @@ function App() {
   const [modalType, setModalType] = useState<string>('Login');
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [isLogged, setIsLogged] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
+
+  const ENV = "development";
 
   const handleLogin = async (email: string, password: string) => {
     await login(email, password).then(data => {
@@ -124,7 +127,12 @@ function App() {
             />
           </Routes>
         </div>
+        {/* Error debug */}
+        <div className='errors'>
+          {ENV === 'development' && <p className='has-text-danger'>{error}</p>}
+        </div>
       </div>
+      <Footer />
     </BrowserRouter>
   );
 }

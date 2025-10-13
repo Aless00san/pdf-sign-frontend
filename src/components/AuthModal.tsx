@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import type User from "../types/types";
 
 interface AuthModalProps {
   title: string;

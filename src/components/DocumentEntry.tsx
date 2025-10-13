@@ -1,5 +1,5 @@
-import type { Document } from '../types/types';
-import './App.css';
+import type { Document } from "../types/types";
+import "./App.css";
 
 function DocumentEntry({
   document,
@@ -17,14 +17,14 @@ function DocumentEntry({
       const res = await fetch(
         `http://localhost:3000/api/documents/${document.id}/download`,
         {
-          credentials: 'include',
+          credentials: "include",
         }
       );
-      if (!res.ok) throw new Error('Download failed');
+      if (!res.ok) throw new Error("Download failed");
 
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = window.document.createElement('a');
+      const a = window.document.createElement("a");
       a.href = url;
       a.download = document.name;
       window.document.body.appendChild(a);
@@ -39,24 +39,38 @@ function DocumentEntry({
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/documents/${document.id}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!res.ok) throw new Error("Delete failed");
+
+      window.location.reload();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <>
-      <div className='box border-box m-2 is-flex is-justify-content-space-between w-half has-background-blue-light'>
-        <h3 className='subtitle is-5'>
-          {document.name.substring(0, 35)}
-          {document.name.length > 35 && '...'}
+      <div className="box border-box m-2 is-flex is-justify-content-space-between w-half has-background-blue-light">
+        <h3 className="subtitle is-5">
+          {document.name.substring(0, 30)}
+          {document.name.length > 30 && "..."}
         </h3>
-        <div className='buttons'>
-          {document.status === 'signed' ? (
-            <button
-              className='button is-success'
-              onClick={handleDownload}
-            >
+        <div className="buttons">
+          {document.status === "signed" ? (
+            <button className="button is-success" onClick={handleDownload}>
               Download
             </button>
           ) : (
             <button
-              className='button is-primary'
+              className="button is-primary"
               onClick={async () => {
                 const qrCode = await attemptSign(document.id);
                 setIsQrModalOpen(true);
@@ -66,7 +80,9 @@ function DocumentEntry({
               Sign
             </button>
           )}
-          <button className='button is-danger'>Delete</button>
+          <button className="button is-danger" onClick={handleDelete}>
+            Delete
+          </button>
         </div>
       </div>
     </>

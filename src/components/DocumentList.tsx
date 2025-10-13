@@ -1,7 +1,7 @@
 import DocumentEntry from './DocumentEntry';
 import type { Document } from '../types/types';
 import { documentList } from '../utils/api';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import QrModal from './QrModal';
 
 function DocumentList({
