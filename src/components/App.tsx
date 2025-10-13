@@ -93,7 +93,7 @@ function App() {
           <Routes>
             <Route
               path='/'
-              element={<UploadBox />}
+              element={<UploadBox isLogged={isLogged} />}
             />
             <Route
               path='/documents'
