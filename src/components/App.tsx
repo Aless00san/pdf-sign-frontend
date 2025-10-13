@@ -19,7 +19,7 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [error, setError] = useState(null);
 
-  const ENV = "development";
+  const ENV = "production";
 
   const handleLogin = async (email: string, password: string) => {
     await login(email, password).then(data => {
