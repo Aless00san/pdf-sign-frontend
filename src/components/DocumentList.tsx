@@ -30,7 +30,7 @@ function DocumentList({
   }, [isLogged]);
 
   if (!isLogged) {
-    return <h2>Please log in to access your documents</h2>;
+    return <h2 className='has-text-centered mt-6'>Please log in to access your documents</h2>;
   }
 
   return (
