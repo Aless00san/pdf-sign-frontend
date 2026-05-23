@@ -10,7 +10,7 @@ export const uploadDocument = async (file: File) => {
   const formData = new FormData();
   formData.append("pdf", file);
 
-  const response = await fetch("http://localhost:3000/api/documents", {
+  const response = await fetch("https://pdfsig.xyz/api/documents", {
     method: "POST",
     body: formData,
     credentials: "include",
@@ -34,7 +34,7 @@ export const uploadDocument = async (file: File) => {
 };
 
 export const login = async (email: string, password: string) => {
-  const response = await fetch("http://localhost:3000/users/login", {
+  const response = await fetch("https://pdfsig.xyz/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -53,7 +53,7 @@ export const login = async (email: string, password: string) => {
 };
 
 export const register = async (email: string, password: string) => {
-  const response = await fetch("http://localhost:3000/users/register", {
+  const response = await fetch("https://pdfsig.xyz/api/users/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -72,7 +72,7 @@ export const register = async (email: string, password: string) => {
 };
 
 export const logout = async () => {
-  const response = await fetch("http://localhost:3000/users/logout", {
+  const response = await fetch("https://pdfsig.xyz/api/users/logout", {
     method: "POST",
     credentials: "include",
   });
@@ -88,7 +88,7 @@ export const logout = async () => {
 
 export const autoLogin = async () => {
   try {
-    const response = await fetch("http://localhost:3000/users/auto-login", {
+    const response = await fetch("https://pdfsig.xyz/api/users/auto-login", {
       method: "GET",
       credentials: "include",
     });
@@ -105,7 +105,7 @@ export const autoLogin = async () => {
 };
 
 export const documentList = async () => {
-  const response = await fetch("http://localhost:3000/api/documents", {
+  const response = await fetch("https://pdfsig.xyz/api/documents", {
     method: "GET",
     credentials: "include",
   });
@@ -121,7 +121,7 @@ export const documentList = async () => {
 
 export const getQRCode = async (documentId: string) => {
   const response = await fetch(
-    `http://localhost:3000/api/documents/${documentId}/qr`,
+    `https://pdfsig.xyz/api/documents/${documentId}/qr`,
     {
       method: "GET",
       credentials: "include",

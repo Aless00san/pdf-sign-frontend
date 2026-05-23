@@ -19,8 +19,6 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
   const [error, setError] = useState(null);
 
-  const ENV = "production";
-
   const handleLogin = async (email: string, password: string) => {
     await login(email, password).then(data => {
       setUser(data.userData);
@@ -129,7 +127,7 @@ function App() {
         </div>
         {/* Error debug */}
         <div className='errors'>
-          {ENV === 'development' && <p className='has-text-danger'>{error}</p>}
+          {import.meta.env.VITE_ERROR_SHOWN === 'true' && <p className='has-text-danger'>{error}</p>}
         </div>
       </div>
       <Footer />

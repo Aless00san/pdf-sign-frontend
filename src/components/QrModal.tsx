@@ -38,7 +38,7 @@ const QrModal: React.FC<QrModalProps> = ({
     const interval = setInterval(async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/api/documents/${documentId}`,
+          `https://pdfsig.xyz/api/documents/${documentId}`,
           {
             credentials: 'include',
           }
@@ -61,22 +61,46 @@ const QrModal: React.FC<QrModalProps> = ({
 
   if (!isOpen) return null;
 
+  const handleSignOnDevice = () => {
+    setIsOpen(false);
+    if (documentId) {
+      navigate(`/sign/${documentId}`);
+    }
+  };
+
   return (
     <div className='modal is-active'>
       <div
         className='modal-background is-flex is-justify-content-center is-align-items-center'
         onClick={() => setIsOpen(false)}
       >
-        <img
-          src={
-            qrSource !== ''
-              ? qrSource
-              : 'https://www.w3schools.com/howto/img_lights.jpg'
-          }
-          alt='qr-code'
-          width={250}
-          height={250}
-        />
+        <div className='has-text-centered'>
+          <img
+            src={
+              qrSource !== ''
+                ? qrSource
+                : 'https://www.w3schools.com/howto/img_lights.jpg'
+            }
+            alt='qr-code'
+            width={250}
+            height={250}
+          />
+          {documentId && (
+            <p className='mt-4 has-text-white'>
+              or{' '}
+              <a
+                href='#'
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSignOnDevice();
+                }}
+                className='has-text-weight-bold has-text-link'
+              >
+                sign on this device
+              </a>
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
