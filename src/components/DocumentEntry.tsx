@@ -15,7 +15,7 @@ function DocumentEntry({
   const handleDownload = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/documents/${document.id}/download`,
+        `https://pdfsig.xyz/api/documents/${document.id}/download`,
         {
           credentials: "include",
         }
@@ -42,7 +42,7 @@ function DocumentEntry({
   const handleDelete = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/documents/${document.id}`,
+        `https://pdfsig.xyz/api/documents/${document.id}`,
         {
           method: "DELETE",
           credentials: "include",

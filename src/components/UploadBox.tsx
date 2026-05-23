@@ -14,7 +14,7 @@ const SinglePDFUploader: React.FC<SinglePDFUploaderProps> = ({ isLogged }) => {
 
   const upload = async (file: File) => {
     try {
-      const data = await uploadDocument(file);
+      await uploadDocument(file);
       setFile(null);
     } catch (error: any) {
       setError(error.message);

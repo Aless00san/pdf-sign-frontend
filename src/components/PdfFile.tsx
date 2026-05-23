@@ -40,7 +40,7 @@ export default function PdfFile() {
     setPdf(null);
     setFile(null);
 
-    fetch(`http://localhost:3000/api/documents/${documentId}/file`, {
+    fetch(`https://pdfsig.xyz/api/documents/${documentId}/file`, {
       credentials: 'include',
     })
       .then(res => res.blob())
@@ -115,7 +115,7 @@ export default function PdfFile() {
     formData.append('pdf', signedBlob);
     formData.append('status', 'signed');
 
-    fetch(`http://localhost:3000/api/documents/${documentId}`, {
+    fetch(`https://pdfsig.xyz/api/documents/${documentId}`, {
       method: 'PUT',
       body: formData,
       credentials: 'include',

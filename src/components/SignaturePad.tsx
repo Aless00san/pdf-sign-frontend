@@ -5,6 +5,7 @@ import './App.css';
 import CloseModal from './CloseModal';
 
 function SignaturePad() {
+  const navigate = useNavigate();
   const [modalOpen, setModalOpen] = useState(false);
 
   const sigCanvasRef = useRef<SignatureCanvas | null>(null);
@@ -27,7 +28,7 @@ function SignaturePad() {
   };
 
   const handleNext = async (signatureDataUrl: string) => {
-    await fetch(`http://localhost:3000/api/documents/${documentId}/sign`, {
+    await fetch(`https://pdfsig.xyz/api/documents/${documentId}/sign`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ signature: signatureDataUrl }),
@@ -40,6 +41,8 @@ function SignaturePad() {
         '*'
       );
       window.close();
+    } else {
+      navigate(`/pdf/${documentId}`, { state: { signature: signatureDataUrl } });
     }
   };
 
